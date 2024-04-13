@@ -1,15 +1,12 @@
 package K2LJ.WelCheck_Backend.memberpackage.repository;
 
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
+//SpringDataJPA 사용
 @Repository
-public interface MemberRepository {
-    public void save(Member member);
+public interface MemberRepository extends JpaRepository<Member, Integer>{
 
-    public Member findOne(Long id);
-
-    public List<Member> findAll();
+    public Member findById(Long id);
 }

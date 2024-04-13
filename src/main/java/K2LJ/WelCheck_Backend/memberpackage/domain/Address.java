@@ -2,11 +2,12 @@ package K2LJ.WelCheck_Backend.memberpackage.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @AllArgsConstructor
-@NoArgsConstructor
+@Builder
 public class Address {
     private String zipCode; //우편번호
 
@@ -19,4 +20,8 @@ public class Address {
     private String reference;   //참고사항
 
     private String phoneNumber; //연락처
+
+    public Address() {
+
+    }
 }

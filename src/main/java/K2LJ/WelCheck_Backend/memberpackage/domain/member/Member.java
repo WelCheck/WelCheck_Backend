@@ -1,25 +1,32 @@
 package K2LJ.WelCheck_Backend.memberpackage.domain.member;
 
 import K2LJ.WelCheck_Backend.memberpackage.domain.Address;
+import K2LJ.WelCheck_Backend.memberpackage.domain.MemberRole;
 import K2LJ.WelCheck_Backend.memberpackage.domain.Sex;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "MTYPE")
-@Getter @Setter//나중에 Setter제거
+@SuperBuilder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Member {
     @Id @GeneratedValue @Column(name = "member_id")
     private Long id;
 
+    @Column(unique = true)
     private String userId;
 
     private String password;
 
     private String name;
 
+    @Column(unique = true)
     private String username;
 
     @Embedded
@@ -28,5 +35,9 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
+    @Email
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole role;
 }
