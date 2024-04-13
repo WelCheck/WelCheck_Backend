@@ -19,15 +19,13 @@ public class Member {
     @Id @GeneratedValue @Column(name = "member_id")
     private Long id;
 
-    @Column(unique = true)
-    private String userId;
+    private String userId;  //unique value
 
     private String password;
 
     private String name;
 
-    @Column(unique = true)
-    private String username;
+    private String username;    //unique value
 
     @Embedded
     private Address address;  //변경필요 - api사용

@@ -54,6 +54,18 @@ public class MemberServiceImp implements MemberService{
         return false;   //중복 x
     }
 
+    @Override
+    public boolean validateUsername(String username) {
+        //findAll()을 돌면서 각 userId와 비교
+        List<Member> allMembers = memberRepository.findAll();
+        for (Member m : allMembers) {
+            if (username.equals(m.getUsername())) {
+                return true;    //중복 o
+            }
+        }
+        return false;   //중복 x
+    }
+
     private DisabledMember getDisabledMember(SignUpDTO signUpDTO) {
         String encodedPassword = encodingPassword(signUpDTO.getPassword());
         Address madeAddress = makeAddress(signUpDTO);

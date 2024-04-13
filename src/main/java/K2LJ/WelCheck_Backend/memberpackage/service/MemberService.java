@@ -8,4 +8,5 @@ public interface MemberService {
 
     public boolean validateMemberId(String userId);
 
+    public boolean validateUsername(String userId);
 }

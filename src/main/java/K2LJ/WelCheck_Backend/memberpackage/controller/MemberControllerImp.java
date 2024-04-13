@@ -24,14 +24,22 @@ public class MemberControllerImp implements MemberController{
     public String signUp(@Validated SignUpDTO signUpDTO, BindingResult bindingResult) {
         log.info("access client for SignUp");
         if (bindingResult.hasErrors()) {
-            log.info("failed to SignUp");
+            log.info("failed by errorOfFormData");
             return "SignUp Fail";   //폼 입력값 오류로 인한 실패
         }
 
         //아이디 중복 검증 로직
         boolean duplicateUserId = memberService.validateMemberId(signUpDTO.getUserId());
         if(duplicateUserId){
+            log.info("failed by duplicatedUserId");
             return "SignUp Fail";   //유저 id 중복으로 인한 실패
+        }
+
+        //username 중복 검증 로직
+        boolean duplicatedUsername = memberService.validateUsername(signUpDTO.getUsername());
+        if (duplicatedUsername) {
+            log.info("failed by duplicatedUsername");
+            return "SignUp Fail"; //username 중복으로 인한 실패
         }
 
         //회원 저장
