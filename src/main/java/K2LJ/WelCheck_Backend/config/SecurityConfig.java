@@ -49,7 +49,6 @@ public class SecurityConfig {
                 .sessionFixation().changeSessionId());
 
 
-
         http.csrf((auth) -> auth.disable());
 
         return http.build();		//return statement 마지막에 넣어줘야함

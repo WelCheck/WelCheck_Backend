@@ -1,6 +1,5 @@
 package K2LJ.WelCheck_Backend.memberpackage.controller;
 
-import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignInDTO;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpDTO;
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.Member;
 import K2LJ.WelCheck_Backend.memberpackage.service.MemberService;
@@ -8,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +18,15 @@ public class MemberControllerImp implements MemberController{
 
     private final MemberService memberService;
 
-    //회원가입
+    //**회원가입**//
+    //회원가입화면
+    @Override
+    @GetMapping("/members")
+    public String signUp() {
+        return "SignUp Screen";
+    }
+
+    //회원가입 폼 제출
     @Override
     @PostMapping("/members")
     public String signUp(@Validated SignUpDTO signUpDTO, BindingResult bindingResult) {
@@ -49,19 +57,12 @@ public class MemberControllerImp implements MemberController{
         return "SignUp Success";
     }
 
-    //로그인
+    //**로그인**//
+    //로그인화면
     @Override
-    @PostMapping("/login")
-    public String signIn(@Validated SignInDTO signInDTO, BindingResult bindingResult) {
-        log.info("access client for SignIn");
-
-        if (bindingResult.hasErrors()) {
-            log.info("failed to SignIn");
-            log.info("errors={}", bindingResult.getAllErrors());
-            return "LogIn Fail";
-        }
-
-        log.info("success Login");
-        return "LogIn Success";
+    //@GetMapping("/login")
+    public String signIn() {
+        return "LogIn Screen";
     }
+
 }

@@ -137,19 +137,20 @@ public class MemberServiceImp implements MemberService, UserDetailsService {
                 .phoneNumber(signUpDTO.getPhoneNumber())
                 .build();
     }
-    //---------------------------------------------------------------회원가입
 
+    //---------------------------------------------------------------회원가입
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member findMember = memberRepository.findByUsername(username);
+        Member findMember = memberRepository.findByUserId(username);
 
         if (findMember == null) {
-            //로그인 시도시, username이 존재하지 않으면
+            //로그인 시도시, userId가 존재하지 않으면
             return null;
         }
-        //로그인 시도시, username이 존재하면 UserDetails객체를 만들어 반환
+        //로그인 시도시, userId가 존재하면 UserDetails객체를 만들어 반환
         //반환한 UserDetails객체로 로그인을 검증해줌
         return new MemberDetailsDTO(findMember);
     }
+
     //----------------------------------------------------------------로그인
 }
