@@ -37,5 +37,5 @@ public class Member {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private MemberRole role;
+    private MemberRole memberRole;
 }

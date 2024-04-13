@@ -39,6 +39,17 @@ public class SecurityConfig {
                 .permitAll()
         );
 
+        //다중 로그인 관리
+        http.sessionManagement((auth) -> auth
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true));   //새 로그인 차단 -> Exception발생 가능성 있음
+
+        //세션 고정 보호
+        http.sessionManagement((auth) -> auth
+                .sessionFixation().changeSessionId());
+
+
+
         http.csrf((auth) -> auth.disable());
 
         return http.build();		//return statement 마지막에 넣어줘야함

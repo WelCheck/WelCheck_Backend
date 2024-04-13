@@ -30,7 +30,7 @@ public class SignUpDTO {
 
     Sex sex;
     String email;
-    MemberRole role;    //if(role == null) role = GeneralMember
+    MemberRole memberRole;    //if(role == null) role = GeneralMember
 
     //DisabledMember
     String certified;

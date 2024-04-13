@@ -29,8 +29,8 @@ public class MemberControllerImp implements MemberController{
         }
 
         //아이디 중복 검증 로직
-        boolean duplicateUserId = memberService.validateMemberId(signUpDTO.getUserId());
-        if(duplicateUserId){
+        boolean duplicatedUserId = memberService.validateMemberId(signUpDTO.getUserId());
+        if(duplicatedUserId){
             log.info("failed by duplicatedUserId");
             return "SignUp Fail";   //유저 id 중복으로 인한 실패
         }
