@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
+import org.json.XML;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +27,7 @@ import java.net.URLEncoder;
 public class SclWlfrFcltInfoInqirServiceApi {
 
     @GetMapping("/openapi/facility/{pageNo}")
-    public JSONPObject getFactilityInfo(@PathVariable("pageNo") Long pageNo/*@RequestBody @Valid GetFacilityInfoRequest request*/) throws IOException {
+    public JSONObject getFactilityInfo(@PathVariable("pageNo") Long pageNo/*@RequestBody @Valid GetFacilityInfoRequest request*/) throws IOException {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B554287/sclWlfrFcltInfoInqirService1/getFcltByBassInfoInqire"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=73iDZKFpqjBQWNBKlP5Ii5tFs3l%2BLY7tBRc70SqzSxPxjD3DDUBuLGLytfJeR%2FGiII26o74%2BvwsuDDSVeoYW4w%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(String.valueOf(pageNo), "UTF-8")); /*페이지 번호*/
@@ -46,14 +48,11 @@ public class SclWlfrFcltInfoInqirServiceApi {
         while ((line = rd.readLine()) != null) {
             sb.append(line);
         }
-        ObjectMapper mapper = new ObjectMapper();
-        JSONPObject json = new JSONPObject("JSON.parse", sb.toString());
-        String jsonStr = mapper.writeValueAsString(json);
+        JSONObject jsonObject = XML.toJSONObject(sb.toString());
 
-        System.out.println(jsonStr);
         rd.close();
         conn.disconnect();
-        return json;
+        return jsonObject;
     }
 
     @Data
