@@ -3,6 +3,7 @@ package K2LJ.WelCheck_Backend.memberpackage.controller;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpDTO;
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.Member;
 import K2LJ.WelCheck_Backend.memberpackage.service.MemberService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class MemberControllerImp implements MemberController{
+public class MemberControllerImp implements MemberController {
 
     private final MemberService memberService;
 
@@ -38,7 +39,7 @@ public class MemberControllerImp implements MemberController{
 
         //아이디 중복 검증 로직
         boolean duplicatedUserId = memberService.validateMemberId(signUpDTO.getUserId());
-        if(duplicatedUserId){
+        if (duplicatedUserId) {
             log.info("failed by duplicatedUserId");
             return "SignUp Fail";   //유저 id 중복으로 인한 실패
         }
@@ -60,9 +61,8 @@ public class MemberControllerImp implements MemberController{
     //**로그인**//
     //로그인화면
     @Override
-    //@GetMapping("/login")
+    @GetMapping("/login")
     public String signIn() {
         return "LogIn Screen";
     }
-
 }

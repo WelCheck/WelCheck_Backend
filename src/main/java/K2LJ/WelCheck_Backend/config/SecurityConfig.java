@@ -17,7 +17,7 @@ public class SecurityConfig {
         //** url경로 별 접근 권한 설정 **//
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/","/members", "/login").permitAll()	//루트, 로그인 페이지
-                //.requestMatchers(("")).authenticated()
+                .requestMatchers(("/loginUser")).authenticated()
                 //.requestMatchers("myPage").hasAnyRole("ADMIN", "USER")	//마이페이지
                 //.requestMatchers("").hasRole("")
                 .anyRequest().denyAll()
@@ -34,6 +34,7 @@ public class SecurityConfig {
 */
 
         //** 로그인 실패시 리다이렉트 경로 & 로그인 폼으로 받은 데이터 전달 경로 **//
+        //API 서버에서는 필요 X
         http.formLogin((auth) -> auth.loginPage("/login")   //loginPage() : 리다이렉트하여 보낼 로그인페이지 경로 설정
                 .loginProcessingUrl("/loginProc")   //loginProcessingUrl() : 로그인폼으로 받은 데이터를 보낼 페이지 경로 설정
                 .permitAll()
