@@ -22,14 +22,14 @@ public class MemberControllerImp implements MemberController {
     //**회원가입**//
     //회원가입화면
     @Override
-    @GetMapping("/members")
+    @GetMapping("/join")
     public String signUp() {
         return "SignUp Screen";
     }
 
     //회원가입 폼 제출
     @Override
-    @PostMapping("/members")
+    @PostMapping("/join")
     public String signUp(@Validated SignUpDTO signUpDTO, BindingResult bindingResult) {
         log.info("access client for SignUp");
         if (bindingResult.hasErrors()) {

@@ -1,23 +1,33 @@
-package K2LJ.WelCheck_Backend.config;
+package K2LJ.WelCheck_Backend.security;
 
+import K2LJ.WelCheck_Backend.security.LoginFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
         //** url경로 별 접근 권한 설정 **//
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/","/members", "/login").permitAll()	//루트, 로그인 페이지
-                .requestMatchers(("/loginUser")).authenticated()
+                .requestMatchers("/","/join", "/login").permitAll()	//루트, 회원가입, 로그인 페이지
+                //.requestMatchers(("/")).authenticated()
                 //.requestMatchers("myPage").hasAnyRole("ADMIN", "USER")	//마이페이지
                 //.requestMatchers("").hasRole("")
                 .anyRequest().denyAll()
@@ -33,26 +43,32 @@ public class SecurityConfig {
         - denyAll() : requestMatchers의 경로들에 모든 사용자들의 접근 거부
 */
 
-        //** 로그인 실패시 리다이렉트 경로 & 로그인 폼으로 받은 데이터 전달 경로 **//
-        //API 서버에서는 필요 X
-        http.formLogin((auth) -> auth.loginPage("/login")   //loginPage() : 리다이렉트하여 보낼 로그인페이지 경로 설정
-                .loginProcessingUrl("/loginProc")   //loginProcessingUrl() : 로그인폼으로 받은 데이터를 보낼 페이지 경로 설정
-                .permitAll()
-        );
-
         //다중 로그인 관리
         http.sessionManagement((auth) -> auth
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true));   //새 로그인 차단 -> Exception발생 가능성 있음
 
-        //세션 고정 보호
-        http.sessionManagement((auth) -> auth
-                .sessionFixation().changeSessionId());
+        //세션 설정 - statless상태로
+        http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        //로그인 필터 추가 _폼로그인 필터 자리에
+        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
 
 
         http.csrf((auth) -> auth.disable());
 
+        http.formLogin((auth -> auth.disable()));
+
+        http.httpBasic((auth) -> auth.disable());
+
         return http.build();		//return statement 마지막에 넣어줘야함
+    }
+
+    //로그인필터에서 사용하는 로그인 검증 객체
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
+        return configuration.getAuthenticationManager();
     }
 
     //패스워드 암호화 서비스 객체
