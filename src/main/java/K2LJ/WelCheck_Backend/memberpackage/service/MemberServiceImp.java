@@ -81,7 +81,7 @@ public class MemberServiceImp implements MemberService, UserDetailsService {
                 .address(madeAddress)
                 .sex(signUpDTO.getSex())
                 .email(signUpDTO.getEmail())
-                .memberRole(signUpDTO.getMemberRole())
+                .memberRole(MemberRole.DisabledMember)
                 .certified(signUpDTO.getCertified())
                 .disableCategory(signUpDTO.getDisableCategory())
                 .build();
@@ -99,7 +99,7 @@ public class MemberServiceImp implements MemberService, UserDetailsService {
                 .address(madeAddress)
                 .sex(signUpDTO.getSex())
                 .email(signUpDTO.getEmail())
-                .memberRole(signUpDTO.getMemberRole())
+                .memberRole(MemberRole.WelfareWorkerMember)
                 .workCertifed(signUpDTO.getWorkCertifed())
                 .workSpace(signUpDTO.getWorkSpace())
                 .build();
@@ -118,7 +118,7 @@ public class MemberServiceImp implements MemberService, UserDetailsService {
                     .address(madeAddress)
                     .sex(signUpDTO.getSex())
                     .email(signUpDTO.getEmail())
-                    .memberRole(signUpDTO.getMemberRole())
+                    .memberRole(MemberRole.GeneralMember)
                     .build();
         }
     }

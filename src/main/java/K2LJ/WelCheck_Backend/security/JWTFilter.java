@@ -42,16 +42,15 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         String username = jwtUtil.getUsername(token);
-        String role = jwtUtil.getRole(token);
-        System.out.println("JWTFilter token role is : " + role);
+        String role = jwtUtil.getRole(token);   //현재 토큰 생성시 role에 null주입함
 
-/*
         Member member = GeneralMember.builder()
                 .userId(username)
                 .password("Tmppassword@@")
                 .build();
-*/
 
+/*
+        현재 토큰에 role에 null 입력, role에 제대로 role이 들어간 경우의 로직
         Member member;      //member 타입에 맞춰서 생성했는데, 이렇게 생성해서 세션에 넣어도 괜찮은지?
         if (role.equals(MemberRole.DisabledMember.toString())) {
             member = DisabledMember.builder()
@@ -74,6 +73,7 @@ public class JWTFilter extends OncePerRequestFilter {
                     .memberRole(MemberRole.GeneralMember)
                     .build();
         }
+*/
 
         MemberDetailsDTO memberDetailsDTO = new MemberDetailsDTO(member);
 

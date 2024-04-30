@@ -1,5 +1,8 @@
 package K2LJ.WelCheck_Backend.security;
 
+import K2LJ.WelCheck_Backend.memberpackage.domain.MemberRole;
+import K2LJ.WelCheck_Backend.memberpackage.domain.member.Member;
+import K2LJ.WelCheck_Backend.memberpackage.repository.MemberRepository;
 import K2LJ.WelCheck_Backend.memberpackage.service.MemberDetailsDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,8 +30,15 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = obtainUsername(request);      //username -> userId로 검증되어야하는데 제대로 되는지
         String password = obtainPassword(request);
 
+/*
+        토큰에 role 넣는 방법?
+        아래 토큰생성 파라미터의 role에 Collection<? extends GrantedAuthorities 타입으로 넣어야하는데 어떻게 하는건지
+        Member findMember = memberRepository.findByUserId(username);
+        MemberRole memberRole = findMember.getMemberRole();
+*/
+
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);
-        //3번째 파라미터 : role
+        //3번째 파라미터 : role _일단 null
 
         return authenticationManager.authenticate(authToken);
     }
