@@ -33,6 +33,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 /*
         토큰에 role 넣는 방법?
         아래 토큰생성 파라미터의 role에 Collection<? extends GrantedAuthorities 타입으로 넣어야하는데 어떻게 하는건지
+        -> 나중에 MemberDetailsDTO클래스 확인후 참고하기
         Member findMember = memberRepository.findByUserId(username);
         MemberRole memberRole = findMember.getMemberRole();
 */
@@ -55,7 +56,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = auth.getAuthority();
 
         //세번째 파라미터 : 토큰 만료 기간
-        String token = jwtUtil.createJwt(username, role, 60 * 60 * 10L);
+        // 1초 * 60 * 60 = 1시간
+        String token = jwtUtil.createJwt(username, role, 1000L * 60 * 60);
+
 
         response.addHeader("Authorization", "Bearer " + token);
     }
