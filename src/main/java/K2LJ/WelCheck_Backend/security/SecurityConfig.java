@@ -26,8 +26,8 @@ public class SecurityConfig {
 
         //** url경로 별 접근 권한 설정 **//
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/","/join", "/login").permitAll()	//루트, 회원가입, 로그인 페이지
-                //.requestMatchers(("/")).authenticated()
+                .requestMatchers("/", "/join", "/login").permitAll()	//루트, 회원가입, 로그인 페이지
+                .requestMatchers(("/mypage")).authenticated()
                 //.requestMatchers("myPage").hasAnyRole("ADMIN", "USER")	//마이페이지
                 //.requestMatchers("").hasRole("")
                 .anyRequest().denyAll()
@@ -50,6 +50,9 @@ public class SecurityConfig {
 
         //세션 설정 - statless상태로
         http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        //JWT 인가 필터 추가 _로그인 필터 전에
+        http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
 
         //로그인 필터 추가 _폼로그인 필터 자리에
         http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);

@@ -65,4 +65,16 @@ public class MemberControllerImp implements MemberController {
     public String signIn() {
         return "LogIn Screen";
     }
+
+    //jwt 로그인 인가 테스트 경로
+    @GetMapping("/mypage")
+    public String myPage() {
+        return "my page";
+    }
+
+    //테스트용 임시 welcome 페이지
+    @GetMapping("/")
+    public String welcomeP(){
+        return "welcome";
+    }
 }
