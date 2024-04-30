@@ -19,7 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImp implements MemberService, UserDetailsService {
+public class MemberServiceImp implements MemberService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberRepository memberRepository;
