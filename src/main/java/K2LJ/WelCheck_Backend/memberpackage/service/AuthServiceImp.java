@@ -10,7 +10,6 @@ import K2LJ.WelCheck_Backend.memberpackage.domain.member.WelfareWorkerMember;
 import K2LJ.WelCheck_Backend.memberpackage.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImp implements MemberService {
+public class AuthServiceImp implements AuthService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberRepository memberRepository;
@@ -100,7 +99,7 @@ public class MemberServiceImp implements MemberService {
                 .sex(signUpDTO.getSex())
                 .email(signUpDTO.getEmail())
                 .memberRole(MemberRole.WelfareWorkerMember)
-                .workCertifed(signUpDTO.getWorkCertifed())
+                .workCertifed(signUpDTO.getWorkCertified())
                 .workSpace(signUpDTO.getWorkSpace())
                 .build();
     }

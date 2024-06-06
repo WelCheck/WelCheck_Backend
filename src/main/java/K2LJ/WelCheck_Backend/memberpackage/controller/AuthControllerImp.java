@@ -2,8 +2,7 @@ package K2LJ.WelCheck_Backend.memberpackage.controller;
 
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpDTO;
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.Member;
-import K2LJ.WelCheck_Backend.memberpackage.service.MemberService;
-import lombok.Getter;
+import K2LJ.WelCheck_Backend.memberpackage.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -15,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class MemberControllerImp implements MemberController {
+public class AuthControllerImp implements AuthController {
 
-    private final MemberService memberService;
+    private final AuthService authService;
 
     //**회원가입**//
     //회원가입화면
@@ -25,6 +24,24 @@ public class MemberControllerImp implements MemberController {
     @GetMapping("/join")
     public String signUp() {
         return "SignUp Screen";
+    }
+
+    @Override
+    @GetMapping("/join/GeneralMember")
+    public String GeneralMemberSignUp() {
+        return "GeneralMember SignUp Screen";
+    }
+
+    @Override
+    @GetMapping("/join/disabledMember")
+    public String disabledMemberSignUp() {
+        return "DisabledMember SignUp Screen";
+    }
+
+    @Override
+    @GetMapping("/join/WelfareWorkerMember")
+    public String WelfareWorkerMemberSignUp() {
+        return "WelfareWorkerMember SignUp Screen";
     }
 
     //회원가입 폼 제출
@@ -38,21 +55,21 @@ public class MemberControllerImp implements MemberController {
         }
 
         //아이디 중복 검증 로직
-        boolean duplicatedUserId = memberService.validateMemberId(signUpDTO.getUserId());
+        boolean duplicatedUserId = authService.validateMemberId(signUpDTO.getUserId());
         if (duplicatedUserId) {
             log.info("failed by duplicatedUserId");
             return "SignUp Fail";   //유저 id 중복으로 인한 실패
         }
 
         //username 중복 검증 로직
-        boolean duplicatedUsername = memberService.validateUsername(signUpDTO.getUsername());
+        boolean duplicatedUsername = authService.validateUsername(signUpDTO.getUsername());
         if (duplicatedUsername) {
             log.info("failed by duplicatedUsername");
             return "SignUp Fail"; //username 중복으로 인한 실패
         }
 
         //회원 저장
-        Member saveMember = memberService.saveMember(signUpDTO);
+        Member saveMember = authService.saveMember(signUpDTO);
 
         log.info("success SignUp");
         return "SignUp Success";

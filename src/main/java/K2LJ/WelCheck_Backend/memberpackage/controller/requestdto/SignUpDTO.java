@@ -37,7 +37,7 @@ public class SignUpDTO {
     String disableCategory;
 
     //WelfareWorkerMember
-    String workCertifed;
+    String workCertified;
     String workSpace;
 
     //GeneralMember
