@@ -1,5 +1,6 @@
 package K2LJ.WelCheck_Backend.memberpackage.controller;
 
+import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindPasswordRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindUserIdRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.Member;
@@ -101,12 +102,44 @@ public class AuthControllerImp implements AuthController {
     //아이디 찾기 폼 제출
     @Override
     @PostMapping("/login/findUserId")
-    public String findUserIdPage(FindUserIdRequestDTO dto) {
+    public String findUserIdPage(@Validated FindUserIdRequestDTO dto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("failed by errorOfFormData");
+            return "Incorrect Data for findUserId";   //폼 입력값 오류로 인한 실패
+        }
+
         String foundId = authService.findUserId(dto);
         if (foundId.equals("fail")) {
             return "fail to find";  //아이디 찾기 실패 시
         }
         return foundId; //아이디 찾기 성공 시
+    }
+
+    //**비밀번호 찾기**//
+    //비밀번호 찾기 화면
+    @Override
+    @GetMapping("/login/findPassword")
+    public String findPasswordPage() {
+        return "Find Password Screen";
+    }
+    //비밀번호 찾기 폼 제출
+    @Override
+    @PostMapping("/login/findPassword")
+    public String findPasswordPage(@Validated FindPasswordRequestDTO dto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("failed by errorOfFormData");
+            return "Incorrect Data for findUserId";   //폼 입력값 validate 실패
+        }
+
+        String findPasswordResult = authService.findPassword(dto);
+
+        if (findPasswordResult.equals("fail")) {
+            return "Incorrect Data for find Password";  //폼 입력값 데이터 불일치 오류
+        }
+
+        return "success for find password";
     }
 
     //jwt 로그인 인가 테스트 경로

@@ -1,5 +1,6 @@
 package K2LJ.WelCheck_Backend.memberpackage.controller;
 
+import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindPasswordRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindUserIdRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpRequestDTO;
 import org.springframework.validation.BindingResult;
@@ -26,11 +27,14 @@ public interface AuthController {
     //**아이디 찾기**//
     //GetMapping
     public String findUserIdPage();
-
     //PostMapping
-    public String findUserIdPage(FindUserIdRequestDTO dto);
+    public String findUserIdPage(FindUserIdRequestDTO dto, BindingResult bindingResult);
 
     //**비밀번호 찾기**//
+    //GetMapping
+    public String findPasswordPage();
 
+    //PostMapping
+    public String findPasswordPage(FindPasswordRequestDTO dto, BindingResult bindingResult);
 
 }

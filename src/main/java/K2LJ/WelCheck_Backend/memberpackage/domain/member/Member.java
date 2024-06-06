@@ -38,4 +38,14 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
+
+    //== 데이터멤버 변경 로직 ==//
+    //유저 닉네임 변경
+    public void changeUsername(String newUsername) {
+        this.username = newUsername;
+    }
+    //비밀번호 변경
+    public void changePassword(String newPassword){
+        this.password = newPassword;
+    }
 }

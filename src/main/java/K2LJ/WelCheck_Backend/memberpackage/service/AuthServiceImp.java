@@ -10,6 +10,7 @@ import K2LJ.WelCheck_Backend.memberpackage.domain.member.GeneralMember;
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.Member;
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.WelfareWorkerMember;
 import K2LJ.WelCheck_Backend.memberpackage.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -98,9 +100,30 @@ public class AuthServiceImp implements AuthService {
         return findMember.getUserId();
     }
 
+    @Transactional
     @Override
     public String findPassword(FindPasswordRequestDTO dto) {
-        return null;
+        Member findMember = memberRepository.findByUserId(dto.getUserId());
+        //id가 존재하지 않을 시
+        if (findMember == null) {
+            return "fail";
+        }
+        //이메일이 다를 시
+        if (!dto.getEmail().equals(findMember.getEmail())) {
+            return "fail";
+        }
+        //이름이 다를 시
+        if (!dto.getName().equals(findMember.getName())) {
+            return "fail";
+        }
+
+        //1.랜덤비밀번호 생성
+        String tmpPassword = UUID.randomUUID().toString();
+        //2.유저의 비밀번호를 위 비밀번호로 변경
+        findMember.changePassword(tmpPassword);
+        //3.이메일로 위 비밀번호 전송
+
+        return "success";
     }
 
     private DisabledMember getDisabledMember(SignUpRequestDTO signUpRequestDTO) {

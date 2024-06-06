@@ -31,7 +31,7 @@ public class SecurityConfig {
 
         //** url경로 별 접근 권한 설정 **//
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/", "/join", "/login", "/login/findUserId").permitAll()	//루트, 회원가입, 로그인 페이지
+                .requestMatchers("/", "/join", "/login", "/login/findUserId", "/login/findPassword").permitAll()	//루트, 회원가입, 로그인 페이지
                 .requestMatchers(("/mypage")).authenticated()
                 //.requestMatchers("myPage").hasAnyRole("ADMIN", "USER")	//마이페이지
                 //.requestMatchers("").hasRole("")
