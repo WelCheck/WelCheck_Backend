@@ -1,6 +1,8 @@
 package K2LJ.WelCheck_Backend.memberpackage.service;
 
-import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpDTO;
+import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindUserIdRequestDTO;
+import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindPasswordRequestDTO;
+import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.domain.Address;
 import K2LJ.WelCheck_Backend.memberpackage.domain.MemberRole;
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.DisabledMember;
@@ -24,21 +26,21 @@ public class AuthServiceImp implements AuthService {
     private final MemberRepository memberRepository;
 
     @Override
-    public Member saveMember(SignUpDTO signUpDTO) {
+    public Member saveMember(SignUpRequestDTO signUpRequestDTO) {
         //Member Type 확인
         MemberRole memberRole;
-        if (signUpDTO.getMemberRole() == null) {
+        if (signUpRequestDTO.getMemberRole() == null) {
             memberRole = MemberRole.GeneralMember;
         }
-        memberRole = signUpDTO.getMemberRole(); // role & sex DTO에 변수타입 convert제대로 되어 넘어오는지 확인
+        memberRole = signUpRequestDTO.getMemberRole(); // role & sex DTO에 변수타입 convert제대로 되어 넘어오는지 확인
 
         Member newMember;
         if (memberRole == MemberRole.DisabledMember) {
-            newMember = getDisabledMember(signUpDTO);
+            newMember = getDisabledMember(signUpRequestDTO);
         } else if (memberRole == MemberRole.WelfareWorkerMember) {
-            newMember = getWelfareWorkerMember(signUpDTO);
+            newMember = getWelfareWorkerMember(signUpRequestDTO);
         }else{
-            newMember = getGeneralMember(signUpDTO);
+            newMember = getGeneralMember(signUpRequestDTO);
         }
 
         return memberRepository.save(newMember);
@@ -58,7 +60,6 @@ public class AuthServiceImp implements AuthService {
 
     @Override
     public boolean validateUsername(String username) {
-        //findAll()을 돌면서 각 userId와 비교
         List<Member> allMembers = memberRepository.findAll();
         for (Member m : allMembers) {
             if (username.equals(m.getUsername())) {
@@ -67,56 +68,90 @@ public class AuthServiceImp implements AuthService {
         }
         return false;   //중복 x
     }
+    @Override
+    public boolean validateEmail(String email) {
+        List<Member> allMembers = memberRepository.findAll();
+        for (Member m : allMembers) {
+            if (email.equals(m.getEmail())) {
+                return true;    //중복 o
+            }
+        }
+        return false;   //중복 x
+    }
 
-    private DisabledMember getDisabledMember(SignUpDTO signUpDTO) {
-        String encodedPassword = encodingPassword(signUpDTO.getPassword());
-        Address madeAddress = makeAddress(signUpDTO);
+    @Override
+    public String findUserId(FindUserIdRequestDTO dto) {
+        //1.이메일로 회원을 찾기
+        //2.이름이 맞는지 검증
+        //3. 해당 id반환
+        Member findMember = memberRepository.findByEmail(dto.getEmail());
+
+        //이메일이 존재하지 않을 시
+        if (findMember == null) {
+            return "fail";
+        }
+        //이름이 다를 시
+        if (!dto.getName().equals(findMember.getName())) {
+            return "fail";
+        }
+
+        return findMember.getUserId();
+    }
+
+    @Override
+    public String findPassword(FindPasswordRequestDTO dto) {
+        return null;
+    }
+
+    private DisabledMember getDisabledMember(SignUpRequestDTO signUpRequestDTO) {
+        String encodedPassword = encodingPassword(signUpRequestDTO.getPassword());
+        Address madeAddress = makeAddress(signUpRequestDTO);
 
         return DisabledMember.builder()
-                .userId(signUpDTO.getUserId())
+                .userId(signUpRequestDTO.getUserId())
                 .password(encodedPassword)
-                .name(signUpDTO.getName())
-                .username(signUpDTO.getUsername())
+                .name(signUpRequestDTO.getName())
+                .username(signUpRequestDTO.getUsername())
                 .address(madeAddress)
-                .sex(signUpDTO.getSex())
-                .email(signUpDTO.getEmail())
+                .sex(signUpRequestDTO.getSex())
+                .email(signUpRequestDTO.getEmail())
                 .memberRole(MemberRole.DisabledMember)
-                .certified(signUpDTO.getCertified())
-                .disableCategory(signUpDTO.getDisableCategory())
+                .certified(signUpRequestDTO.getCertified())
+                .disableCategory(signUpRequestDTO.getDisableCategory())
                 .build();
     }
 
-    private WelfareWorkerMember getWelfareWorkerMember(SignUpDTO signUpDTO) {
-        String encodedPassword = encodingPassword(signUpDTO.getPassword());
-        Address madeAddress = makeAddress(signUpDTO);
+    private WelfareWorkerMember getWelfareWorkerMember(SignUpRequestDTO signUpRequestDTO) {
+        String encodedPassword = encodingPassword(signUpRequestDTO.getPassword());
+        Address madeAddress = makeAddress(signUpRequestDTO);
 
         return WelfareWorkerMember.builder()
-                .userId(signUpDTO.getUserId())
+                .userId(signUpRequestDTO.getUserId())
                 .password(encodedPassword)
-                .name(signUpDTO.getName())
-                .username(signUpDTO.getUsername())
+                .name(signUpRequestDTO.getName())
+                .username(signUpRequestDTO.getUsername())
                 .address(madeAddress)
-                .sex(signUpDTO.getSex())
-                .email(signUpDTO.getEmail())
+                .sex(signUpRequestDTO.getSex())
+                .email(signUpRequestDTO.getEmail())
                 .memberRole(MemberRole.WelfareWorkerMember)
-                .workCertifed(signUpDTO.getWorkCertified())
-                .workSpace(signUpDTO.getWorkSpace())
+                .workCertifed(signUpRequestDTO.getWorkCertified())
+                .workSpace(signUpRequestDTO.getWorkSpace())
                 .build();
     }
 
-    private GeneralMember getGeneralMember(SignUpDTO signUpDTO) {
+    private GeneralMember getGeneralMember(SignUpRequestDTO signUpRequestDTO) {
         {
-            String encodedPassword = encodingPassword(signUpDTO.getPassword());
-            Address madeAddress = makeAddress(signUpDTO);
+            String encodedPassword = encodingPassword(signUpRequestDTO.getPassword());
+            Address madeAddress = makeAddress(signUpRequestDTO);
 
             return GeneralMember.builder()
-                    .userId(signUpDTO.getUserId())
+                    .userId(signUpRequestDTO.getUserId())
                     .password(encodedPassword)
-                    .name(signUpDTO.getName())
-                    .username(signUpDTO.getUsername())
+                    .name(signUpRequestDTO.getName())
+                    .username(signUpRequestDTO.getUsername())
                     .address(madeAddress)
-                    .sex(signUpDTO.getSex())
-                    .email(signUpDTO.getEmail())
+                    .sex(signUpRequestDTO.getSex())
+                    .email(signUpRequestDTO.getEmail())
                     .memberRole(MemberRole.GeneralMember)
                     .build();
         }
@@ -126,14 +161,14 @@ public class AuthServiceImp implements AuthService {
         return bCryptPasswordEncoder.encode(password);
     }
 
-    private Address makeAddress(SignUpDTO signUpDTO) {
+    private Address makeAddress(SignUpRequestDTO signUpRequestDTO) {
         return Address.builder()
-                .zipCode(signUpDTO.getZipCode())
-                .roadName(signUpDTO.getRoadName())
-                .streetNumber(signUpDTO.getStreetNumber())
-                .detail(signUpDTO.getDetail())
-                .reference(signUpDTO.getReference())
-                .phoneNumber(signUpDTO.getPhoneNumber())
+                .zipCode(signUpRequestDTO.getZipCode())
+                .roadName(signUpRequestDTO.getRoadName())
+                .streetNumber(signUpRequestDTO.getStreetNumber())
+                .detail(signUpRequestDTO.getDetail())
+                .reference(signUpRequestDTO.getReference())
+                .phoneNumber(signUpRequestDTO.getPhoneNumber())
                 .build();
     }
 

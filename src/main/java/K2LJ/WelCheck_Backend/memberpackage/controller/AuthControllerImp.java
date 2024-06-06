@@ -1,6 +1,7 @@
 package K2LJ.WelCheck_Backend.memberpackage.controller;
 
-import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpDTO;
+import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindUserIdRequestDTO;
+import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.Member;
 import K2LJ.WelCheck_Backend.memberpackage.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class AuthControllerImp implements AuthController {
     //회원가입 폼 제출
     @Override
     @PostMapping("/join")
-    public String signUp(@Validated SignUpDTO signUpDTO, BindingResult bindingResult) {
+    public String signUp(@Validated SignUpRequestDTO dto, BindingResult bindingResult) {
         log.info("access client for SignUp");
         if (bindingResult.hasErrors()) {
             log.info("failed by errorOfFormData");
@@ -55,21 +56,28 @@ public class AuthControllerImp implements AuthController {
         }
 
         //아이디 중복 검증 로직
-        boolean duplicatedUserId = authService.validateMemberId(signUpDTO.getUserId());
+        boolean duplicatedUserId = authService.validateMemberId(dto.getUserId());
         if (duplicatedUserId) {
             log.info("failed by duplicatedUserId");
             return "SignUp Fail";   //유저 id 중복으로 인한 실패
         }
 
         //username 중복 검증 로직
-        boolean duplicatedUsername = authService.validateUsername(signUpDTO.getUsername());
+        boolean duplicatedUsername = authService.validateUsername(dto.getUsername());
         if (duplicatedUsername) {
             log.info("failed by duplicatedUsername");
             return "SignUp Fail"; //username 중복으로 인한 실패
         }
 
+        //Email 중복 검증 로직
+        boolean duplicatedEmail = authService.validateEmail(dto.getEmail());
+        if (duplicatedEmail) {
+            log.info("failed by duplicatedEmail");
+            return "SignUp Fail"; //Email 중복으로 인한 실패
+        }
+
         //회원 저장
-        Member saveMember = authService.saveMember(signUpDTO);
+        Member saveMember = authService.saveMember(dto);
 
         log.info("success SignUp");
         return "SignUp Success";
@@ -81,6 +89,24 @@ public class AuthControllerImp implements AuthController {
     @GetMapping("/login")
     public String signIn() {
         return "LogIn Screen";
+    }
+
+    //**아이디 찾기**//
+    //아이디찾기 화면
+    @Override
+    @GetMapping("/login/findUserId")
+    public String findUserIdPage() {
+        return "Find UserId Screen";
+    }
+    //아이디 찾기 폼 제출
+    @Override
+    @PostMapping("/login/findUserId")
+    public String findUserIdPage(FindUserIdRequestDTO dto) {
+        String foundId = authService.findUserId(dto);
+        if (foundId.equals("fail")) {
+            return "fail to find";  //아이디 찾기 실패 시
+        }
+        return foundId; //아이디 찾기 성공 시
     }
 
     //jwt 로그인 인가 테스트 경로

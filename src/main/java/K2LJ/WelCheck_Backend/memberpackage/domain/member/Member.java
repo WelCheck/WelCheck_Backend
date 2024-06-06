@@ -34,7 +34,7 @@ public class Member {
     private Sex sex;
 
     @Email
-    private String email;
+    private String email;   //unique value
 
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
