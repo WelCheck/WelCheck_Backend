@@ -12,6 +12,7 @@ import K2LJ.WelCheck_Backend.memberpackage.domain.member.WelfareWorkerMember;
 import K2LJ.WelCheck_Backend.memberpackage.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImp implements AuthService {
@@ -118,10 +120,13 @@ public class AuthServiceImp implements AuthService {
         }
 
         //1.랜덤비밀번호 생성
-        String tmpPassword = UUID.randomUUID().toString();
+        String randomStr = UUID.randomUUID().toString();
+        log.info("new password : " + randomStr);
+        String tmpPassword = encodingPassword(randomStr);
         //2.유저의 비밀번호를 위 비밀번호로 변경
         findMember.changePassword(tmpPassword);
         //3.이메일로 위 비밀번호 전송
+
 
         return "success";
     }
