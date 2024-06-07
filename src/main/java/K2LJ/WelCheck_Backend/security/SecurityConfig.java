@@ -32,6 +32,7 @@ public class SecurityConfig {
         //** url경로 별 접근 권한 설정 **//
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/", "/join", "/login", "/login/findUserId", "/login/findPassword").permitAll()	//루트, 회원가입, 로그인 페이지
+                .requestMatchers("/api/mail/**").permitAll()    //JavaMailSender 에서 사용됨 _이거 안쓰는데? 한번 없애보기
                 .requestMatchers(("/mypage")).authenticated()
                 //.requestMatchers("myPage").hasAnyRole("ADMIN", "USER")	//마이페이지
                 //.requestMatchers("").hasRole("")

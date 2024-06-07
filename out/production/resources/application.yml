@@ -15,6 +15,10 @@ spring:
         #        show_sql: true
         format_sql: true
 
+naver:
+  id : seluo65@naver.com
+  password : thafi05ai86
+
 logging.level:
   org.hibernate.SQL: debug
 #  org.hibernate.type: trace

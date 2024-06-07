@@ -35,6 +35,6 @@ public interface AuthController {
     public String findPasswordPage();
 
     //PostMapping
-    public String findPasswordPage(FindPasswordRequestDTO dto, BindingResult bindingResult);
+    public String findPasswordPage(FindPasswordRequestDTO dto, BindingResult bindingResult) throws Exception;
 
 }

@@ -1,5 +1,6 @@
 package K2LJ.WelCheck_Backend.memberpackage.service;
 
+import K2LJ.WelCheck_Backend.mail.MailService;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindUserIdRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindPasswordRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpRequestDTO;
@@ -28,6 +29,7 @@ public class AuthServiceImp implements AuthService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberRepository memberRepository;
+    private final MailService mailService;
 
     @Override
     public Member saveMember(SignUpRequestDTO signUpRequestDTO) {
@@ -104,7 +106,7 @@ public class AuthServiceImp implements AuthService {
 
     @Transactional
     @Override
-    public String findPassword(FindPasswordRequestDTO dto) {
+    public String findPassword(FindPasswordRequestDTO dto) throws Exception{
         Member findMember = memberRepository.findByUserId(dto.getUserId());
         //id가 존재하지 않을 시
         if (findMember == null) {
@@ -126,7 +128,7 @@ public class AuthServiceImp implements AuthService {
         //2.유저의 비밀번호를 위 비밀번호로 변경
         findMember.changePassword(tmpPassword);
         //3.이메일로 위 비밀번호 전송
-
+        mailService.sendTempPasswordMail(findMember.getEmail(), findMember.getName(), randomStr);
 
         return "success";
     }

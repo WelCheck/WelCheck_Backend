@@ -19,6 +19,6 @@ public interface AuthService extends UserDetailsService {
     //== 아이디, 비밀번호 찾기 ==//
     public String findUserId(FindUserIdRequestDTO dto);
 
-    public String findPassword(FindPasswordRequestDTO dto);
+    public String findPassword(FindPasswordRequestDTO dto) throws Exception;
 
 }

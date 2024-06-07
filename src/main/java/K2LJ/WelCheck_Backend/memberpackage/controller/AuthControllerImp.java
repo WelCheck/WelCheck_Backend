@@ -126,7 +126,7 @@ public class AuthControllerImp implements AuthController {
     //비밀번호 찾기 폼 제출
     @Override
     @PostMapping("/login/findPassword")
-    public String findPasswordPage(@Validated FindPasswordRequestDTO dto, BindingResult bindingResult) {
+    public String findPasswordPage(@Validated FindPasswordRequestDTO dto, BindingResult bindingResult) throws Exception{
 
         if (bindingResult.hasErrors()) {
             log.info("failed by errorOfFormData");
