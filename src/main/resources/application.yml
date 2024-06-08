@@ -4,6 +4,8 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+  jwt:
+    secret: dofaknfknadofoawekfandjfnoajdfjajdkfaowdnfoankwdfmklanldjfoaja  #jwt토큰키 - value
 
   jpa:
     hibernate:
@@ -12,6 +14,10 @@ spring:
       hibernate:
         #        show_sql: true
         format_sql: true
+
+naver:
+  id : seluo65@naver.com
+  password : thafi05ai86
 
 logging.level:
   org.hibernate.SQL: debug
