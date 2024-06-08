@@ -48,13 +48,16 @@ public class MailServiceImpl implements MailService{
         message.setSubject("Wel-Check 임시 비밀번호 발급 안내");
 
         String msgg = "";
-        msgg += "안녕하세요, [" + name + "]님. Wel-Check 입니다.";
+        msgg += "<h1>안녕하세요, [" + name + "]님. Wel-Check 입니다.</h1>";
         msgg += "<br>";
         msgg += "임시 비밀번호를 발급해 드립니다. 아래의 임시 비밀번호를 사용하여 로그인해 주시기 바랍니다.";
         msgg += "<br>";
+        msgg += "<br>";
         msgg += "임시 비밀번호: " + password;
         msgg += "<br>";
+        msgg += "<br>";
         msgg += "로그인 후 반드시 새로운 비밀번호로 변경해 주시기 바랍니다.";
+        msgg += "<br>";
         msgg += "<br>";
         msgg += "감사합니다.";
         //메일 내용, charset타입, subtype
