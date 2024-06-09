@@ -17,7 +17,7 @@ spring:
 
 naver:
   id : seluo65@naver.com
-  password : thafi05ai86
+  password : 
 
 logging.level:
   org.hibernate.SQL: debug
