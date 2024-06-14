@@ -1,17 +1,9 @@
 package K2LJ.WelCheck_Backend.memberpackage.repository;
 
-import K2LJ.WelCheck_Backend.memberpackage.domain.Address;
-import K2LJ.WelCheck_Backend.memberpackage.domain.Sex;
-import K2LJ.WelCheck_Backend.memberpackage.domain.member.Member;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 //SpringDataJpa 사용 Repository Test
 @SpringBootTest

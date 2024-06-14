@@ -1,6 +1,5 @@
 package K2LJ.WelCheck_Backend.facilitypackage.domain;
 
-import K2LJ.WelCheck_Backend.memberpackage.domain.Address;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

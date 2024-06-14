@@ -1,5 +1,5 @@
 package K2LJ.WelCheck_Backend.memberpackage.domain;
 
-public enum Sex {
+public enum Gender {
     MALE, FEMALE
 }

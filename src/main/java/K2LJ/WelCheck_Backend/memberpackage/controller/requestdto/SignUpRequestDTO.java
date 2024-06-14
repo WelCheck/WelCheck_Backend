@@ -1,7 +1,7 @@
 package K2LJ.WelCheck_Backend.memberpackage.controller.requestdto;
 
 import K2LJ.WelCheck_Backend.memberpackage.domain.MemberRole;
-import K2LJ.WelCheck_Backend.memberpackage.domain.Sex;
+import K2LJ.WelCheck_Backend.memberpackage.domain.Gender;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -17,18 +17,9 @@ public class SignUpRequestDTO {
     String username;
 
     //주소
-    @NotBlank
-    String zipCode;
-    @NotBlank
-    String roadName;
-    @NotBlank
-    String streetNumber;
-    @NotBlank
-    String detail;
-    String reference;
-    String phoneNumber;
+    String address;
 
-    Sex sex;
+    Gender gender;
     String email;
     MemberRole memberRole;    //if(role == null) role = GeneralMember
 

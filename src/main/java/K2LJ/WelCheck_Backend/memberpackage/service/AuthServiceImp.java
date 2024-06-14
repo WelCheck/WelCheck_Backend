@@ -4,7 +4,6 @@ import K2LJ.WelCheck_Backend.mail.MailService;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindUserIdRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.FindPasswordRequestDTO;
 import K2LJ.WelCheck_Backend.memberpackage.controller.requestdto.SignUpRequestDTO;
-import K2LJ.WelCheck_Backend.memberpackage.domain.Address;
 import K2LJ.WelCheck_Backend.memberpackage.domain.MemberRole;
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.DisabledMember;
 import K2LJ.WelCheck_Backend.memberpackage.domain.member.GeneralMember;
@@ -135,15 +134,14 @@ public class AuthServiceImp implements AuthService {
 
     private DisabledMember getDisabledMember(SignUpRequestDTO signUpRequestDTO) {
         String encodedPassword = encodingPassword(signUpRequestDTO.getPassword());
-        Address madeAddress = makeAddress(signUpRequestDTO);
 
         return DisabledMember.builder()
                 .userId(signUpRequestDTO.getUserId())
                 .password(encodedPassword)
                 .name(signUpRequestDTO.getName())
                 .username(signUpRequestDTO.getUsername())
-                .address(madeAddress)
-                .sex(signUpRequestDTO.getSex())
+                .address(signUpRequestDTO.getAddress())
+                .gender(signUpRequestDTO.getGender())
                 .email(signUpRequestDTO.getEmail())
                 .memberRole(MemberRole.DisabledMember)
                 .certified(signUpRequestDTO.getCertified())
@@ -153,15 +151,14 @@ public class AuthServiceImp implements AuthService {
 
     private WelfareWorkerMember getWelfareWorkerMember(SignUpRequestDTO signUpRequestDTO) {
         String encodedPassword = encodingPassword(signUpRequestDTO.getPassword());
-        Address madeAddress = makeAddress(signUpRequestDTO);
 
         return WelfareWorkerMember.builder()
                 .userId(signUpRequestDTO.getUserId())
                 .password(encodedPassword)
                 .name(signUpRequestDTO.getName())
                 .username(signUpRequestDTO.getUsername())
-                .address(madeAddress)
-                .sex(signUpRequestDTO.getSex())
+                .address(signUpRequestDTO.getAddress())
+                .gender(signUpRequestDTO.getGender())
                 .email(signUpRequestDTO.getEmail())
                 .memberRole(MemberRole.WelfareWorkerMember)
                 .workCertifed(signUpRequestDTO.getWorkCertified())
@@ -172,15 +169,14 @@ public class AuthServiceImp implements AuthService {
     private GeneralMember getGeneralMember(SignUpRequestDTO signUpRequestDTO) {
         {
             String encodedPassword = encodingPassword(signUpRequestDTO.getPassword());
-            Address madeAddress = makeAddress(signUpRequestDTO);
 
             return GeneralMember.builder()
                     .userId(signUpRequestDTO.getUserId())
                     .password(encodedPassword)
                     .name(signUpRequestDTO.getName())
                     .username(signUpRequestDTO.getUsername())
-                    .address(madeAddress)
-                    .sex(signUpRequestDTO.getSex())
+                    .address(signUpRequestDTO.getAddress())
+                    .gender(signUpRequestDTO.getGender())
                     .email(signUpRequestDTO.getEmail())
                     .memberRole(MemberRole.GeneralMember)
                     .build();
@@ -189,17 +185,6 @@ public class AuthServiceImp implements AuthService {
 
     private String encodingPassword(String password) {
         return bCryptPasswordEncoder.encode(password);
-    }
-
-    private Address makeAddress(SignUpRequestDTO signUpRequestDTO) {
-        return Address.builder()
-                .zipCode(signUpRequestDTO.getZipCode())
-                .roadName(signUpRequestDTO.getRoadName())
-                .streetNumber(signUpRequestDTO.getStreetNumber())
-                .detail(signUpRequestDTO.getDetail())
-                .reference(signUpRequestDTO.getReference())
-                .phoneNumber(signUpRequestDTO.getPhoneNumber())
-                .build();
     }
 
     //---------------------------------------------------------------회원가입
