@@ -1,8 +1,7 @@
 package K2LJ.WelCheck_Backend.memberpackage.domain.member;
 
-import K2LJ.WelCheck_Backend.memberpackage.domain.Address;
 import K2LJ.WelCheck_Backend.memberpackage.domain.MemberRole;
-import K2LJ.WelCheck_Backend.memberpackage.domain.Sex;
+import K2LJ.WelCheck_Backend.memberpackage.domain.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -27,11 +26,10 @@ public class Member {
 
     private String username;    //unique value
 
-    @Embedded
-    private Address address;  //변경필요 - api사용
+    private String address;
 
     @Enumerated(EnumType.STRING)
-    private Sex sex;
+    private Gender gender;
 
     @Email
     private String email;   //unique value
