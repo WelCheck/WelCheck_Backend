@@ -2,6 +2,7 @@ package K2LJ.WelCheck_Backend.facilitypackage.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -46,5 +47,22 @@ public class Facility {
 
     private String cfbNm; //업종명
 
-    //@JsonIgnore
+    @Builder
+    public Facility(String facilityName, String fcltCd, String rprsNm, String homepageAddr, String fcltMailAddr, String fcltZipcd, String fcltAddr, String fcltDtl_1Addr, String fcltDtl_2Addr, String fcltTelNo, String fcltTelNo2, String faxNo, String cfdCICD, String cprNm, String cfbNm) {
+        this.facilityName = facilityName;
+        this.fcltCd = fcltCd;
+        this.rprsNm = rprsNm;
+        this.homepageAddr = homepageAddr;
+        this.fcltMailAddr = fcltMailAddr;
+        this.fcltZipcd = fcltZipcd;
+        this.fcltAddr = fcltAddr;
+        this.fcltDtl_1Addr = fcltDtl_1Addr;
+        this.fcltDtl_2Addr = fcltDtl_2Addr;
+        this.fcltTelNo = fcltTelNo;
+        this.fcltTelNo2 = fcltTelNo2;
+        this.faxNo = faxNo;
+        this.cfdCICD = cfdCICD;
+        this.cprNm = cprNm;
+        this.cfbNm = cfbNm;
+    }
 }
