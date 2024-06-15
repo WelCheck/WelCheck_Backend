@@ -15,7 +15,8 @@ public class Facility {
     @Column(name = "facility_id")
     private Long id;
 
-    private String fcltNm; //시설명
+    @Column(unique = true, nullable = false)
+    private String facilityName; //시설명
 
     @NotEmpty
     private String fcltCd; //시설코드
