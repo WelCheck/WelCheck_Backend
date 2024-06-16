@@ -65,4 +65,41 @@ public class Facility {
         this.cprNm = cprNm;
         this.cfbNm = cfbNm;
     }
+
+    public FacilityEditor.FacilityEditorBuilder toEditor(){
+        return FacilityEditor.builder()
+                .fcilityName(facilityName)
+                .fcltCd(fcltCd)
+                .rprsNm(rprsNm)
+                .homepageAddr(homepageAddr)
+                .fcltMailAddr(fcltMailAddr)
+                .fcltZipcd(fcltZipcd)
+                .fcltAddr(fcltAddr)
+                .fcltDtl_1Addr(fcltDtl_1Addr)
+                .fcltDtl_2Addr(fcltDtl_2Addr)
+                .fcltTelNo(fcltTelNo)
+                .fcltTelNo2(fcltTelNo2)
+                .faxNo(faxNo)
+                .cfdCICD(cfdCICD)
+                .cprNm(cprNm)
+                .cfbNm(cfbNm);
+    }
+
+    public void edit(FacilityEditor facilityEditor){
+        this.facilityName = facilityEditor.getFacilityName();
+        this.fcltCd = facilityEditor.getFcltCd();
+        this.rprsNm = facilityEditor.getRprsNm();
+        this.homepageAddr = facilityEditor.getHomepageAddr();
+        this.fcltMailAddr = facilityEditor.getFcltMailAddr();
+        this.fcltZipcd = facilityEditor.getFcltZipcd();
+        this.fcltAddr = facilityEditor.getFcltAddr();
+        this.fcltDtl_1Addr = facilityEditor.getFcltDtl_1Addr();
+        this.fcltDtl_2Addr = facilityEditor.getFcltDtl_2Addr();
+        this.fcltTelNo = facilityEditor.getFcltTelNo();
+        this.fcltTelNo2 = facilityEditor.getFcltTelNo2();
+        this.faxNo = facilityEditor.getFaxNo();
+        this.cfdCICD = facilityEditor.getCfdCICD();
+        this.cprNm = facilityEditor.getCprNm();
+        this.cfbNm = facilityEditor.getCfbNm();
+    }
 }
