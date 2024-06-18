@@ -10,11 +10,9 @@ import lombok.ToString;
 @ToString
 @Getter
 public class FacilityCreate {
-    @Column(unique = true, nullable = false)
     @NotBlank(message = "시설 명을 입력해주세요")
     public final String facilityName; //시설명
 
-    @NotEmpty
     @NotBlank(message = "시설코드을 입력해주세요")
     public final String fcltCd; //시설코드
 

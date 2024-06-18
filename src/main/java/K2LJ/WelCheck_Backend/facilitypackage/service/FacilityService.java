@@ -6,6 +6,7 @@ import K2LJ.WelCheck_Backend.facilitypackage.exception.FacilityNotFound;
 import K2LJ.WelCheck_Backend.facilitypackage.repository.FacilityRepository;
 import K2LJ.WelCheck_Backend.facilitypackage.request.FacilityCreate;
 import K2LJ.WelCheck_Backend.facilitypackage.request.FacilityEdit;
+import K2LJ.WelCheck_Backend.facilitypackage.response.FacilityResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,26 @@ public class FacilityService {
        return facilityRepository.findAll();
     }
 
-    public Facility findById(Long id){
-        return facilityRepository.findById(id).orElseThrow(FacilityNotFound::new);
+    public FacilityResponse get(Long id){
+        Facility facility = facilityRepository.findById(id).orElseThrow(FacilityNotFound::new);
+
+        return FacilityResponse.builder()
+                .id(facility.getId())
+                .fcltCd(facility.getFcltCd())
+                .rprsNm(facility.getRprsNm())
+                .homepageAddr(facility.getHomepageAddr())
+                .fcltMailAddr(facility.getFcltMailAddr())
+                .fcltZipcd(facility.getFcltZipcd())
+                .fcltAddr(facility.getFcltAddr())
+                .fcltDtl_1Addr(facility.getFcltDtl_1Addr())
+                .fcltDtl_2Addr(facility.getFcltDtl_2Addr())
+                .fcltTelNo(facility.getFcltTelNo())
+                .fcltTelNo2(facility.getFcltTelNo2())
+                .faxNo(facility.getFaxNo())
+                .cfdCICD(facility.getCfdCICD())
+                .cprNm(facility.getCprNm())
+                .cfbNm(facility.getCfbNm())
+                .build();
     }
 
     public Facility save(FacilityCreate facilityCreate){
@@ -37,7 +56,7 @@ public class FacilityService {
                 .fcltDtl_2Addr(facilityCreate.getFcltDtl_2Addr())
                 .fcltTelNo(facilityCreate.getFcltTelNo())
                 .fcltTelNo2(facilityCreate.getFcltTelNo2())
-                .faxNo(facilityCreate.faxNo)
+                .faxNo(facilityCreate.getFaxNo())
                 .cfdCICD(facilityCreate.getCfdCICD())
                 .cprNm(facilityCreate.getCprNm())
                 .cfbNm(facilityCreate.getCfbNm())
